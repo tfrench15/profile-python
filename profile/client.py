@@ -47,19 +47,17 @@ class Client(object):
             params['exclude'] = ','.join(exclude)
 
         if limit:
-            try:
-                if limit >= 1 and limit <= 100:
-                    params['limit'] = str(limit)
-            except:
-                raise exceptions.InputError(limit, 'limit must be between 1 and 100, inclusive')
+            if limit < 1 or limit > 100:
+                raise exceptions.InputError
+            else:
+                params['limit'] = str(limit)
 
         if sort:
-            try:
-                if sort == 'asc' or sort == 'desc':
-                    params['sort'] = sort
-            except:
-                raise exceptions.InputError(sort, 'sort must be asc or desc')
-
+            if sort != 'asc' or sort != 'desc':
+                raise exceptions.InputError
+            else:
+                params['sort'] = sort
+                
         if len(params) > 0:
             r = requests.get(url, params=params, auth=(self.secret, ''))
         else:
