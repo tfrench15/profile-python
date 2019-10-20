@@ -1,4 +1,5 @@
 import requests
+
 import exceptions
 
 class Client(object):
@@ -19,7 +20,11 @@ class Client(object):
             params['verbose'] = 'true'
 
         if limit:
-            params['limit'] = str(limit)
+            try:
+                if limit >= 1 and limit <=100:
+                    params['limit'] = str(limit)
+            except:
+                raise exceptions.InputError(limit, 'limit must be between 1 and 100 inclusive')
 
         if len(params) > 0:
             r = requests.get(url, params=params, auth=(self.secret, ''))
