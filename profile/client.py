@@ -1,5 +1,5 @@
 import requests
-import profile
+import exceptions
 
 class Client(object):
 
@@ -46,14 +46,14 @@ class Client(object):
                 if limit >= 1 and limit <= 100:
                     params['limit'] = str(limit)
             except:
-                raise profile.exceptions.InputError(limit, 'limit must be between 1 and 100, inclusive')
+                raise exceptions.InputError(limit, 'limit must be between 1 and 100, inclusive')
 
         if sort:
             try:
                 if sort == 'asc' or sort == 'desc':
                     params['sort'] = sort
             except:
-                raise profile.exceptions.InputError(sort, 'sort must be asc or desc')
+                raise exceptions.InputError(sort, 'sort must be asc or desc')
 
         if len(params) > 0:
             r = requests.get(url, params=params, auth=(self.secret, ''))
