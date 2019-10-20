@@ -1,4 +1,5 @@
 import requests
+from profile.exceptions import InputError
 
 class Client(object):
 
@@ -21,15 +22,16 @@ class Client(object):
             params['limit'] = str(limit)
 
         if len(params) > 0:
-            r = requests.get(url, params=params)
+            r = requests.get(url, params=params, auth=(self.secret, ''))
         else:
-            r = requests.get(url)
+            r = requests.get(url, auth=(self.secret, ''))
 
         return r.json()
 
     def get_events(self, id, value, include=None, 
                    exclude=None, start=None, end=None, 
                    limit=None, sort=None):
+
         url = self.base_url + self.namespace + 'collections/users/profiles/' + id + ':' + value + '/traits'
         params = {}
 
@@ -40,12 +42,25 @@ class Client(object):
             params['exclude'] = ','.join(exclude)
 
         if limit:
-            params['limit'] = str(limit)
+            try:
+                if limit >= 1 and limit <= 100:
+                    params['limit'] = str(limit)
+            except:
+                raise InputError(limit, 'limit must be between 1 and 100, inclusive')
 
         if sort:
-            if sort != 'asc' or sort != 'desc':
-                raise
-            params['sort'] = sort
+            try:
+                if sort == 'asc' or sort == 'desc':
+                    params['sort'] = sort
+            except:
+                raise InputError(sort, 'sort must be asc or desc')
+
+        if len(params) > 0:
+            r = requests.get(url, params=params, auth=(self.secret, ''))
+        else:
+            r = requests.get(url, auth=(self.secret, ''))
+
+        return r.json()
 
     def get_external_ids(self, id, value):
         pass
