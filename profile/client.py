@@ -20,10 +20,9 @@ class Client(object):
             params['verbose'] = 'true'
 
         if limit:
-            try:
-                if limit >= 1 and limit <=100:
-                    params['limit'] = str(limit)
-            except:
+            if limit >= 1 and limit <=100:
+                params['limit'] = str(limit)
+            else:
                 raise exceptions.InputError(limit, 'limit must be between 1 and 100 inclusive')
 
         if len(params) > 0:
