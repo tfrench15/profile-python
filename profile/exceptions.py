@@ -3,9 +3,13 @@
 class Error(Exception):
     pass
 
-class InputError(Error):
+class LimitError(Error):
     def __init__(self, limit, message):
         self.limit = limit
         self.message = message
 
     
+class SortError(Error):
+    def __init__(self, sort, message):
+        self.sort = sort
+        self.message = message
