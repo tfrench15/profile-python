@@ -11,7 +11,7 @@ class Client(object):
         self.secret = secret
 
     def get_traits(self, id, value, include=None, verbose=None, limit=None): 
-        url = self.base_url + self.namespace + 'collections/users/profiles/' + id + ':' + value + '/traits'
+        url = self.base_url + self.namespace + '/collections/users/profiles/' + id + ':' + value + '/traits'
         params = {}
         if include:
             params['include'] = ','.join(include)
@@ -25,18 +25,14 @@ class Client(object):
             else:
                 raise exceptions.LimitError(limit, 'limit must be between 1 and 100 inclusive')
 
-        if len(params) > 0:
-            r = requests.get(url, params=params, auth=(self.secret, ''))
-        else:
-            r = requests.get(url, auth=(self.secret, ''))
-
-        return r.json()
+        res = requests.get(url, params=params, auth=(self.secret, ''))
+        return res.json()
 
     def get_events(self, id, value, include=None, 
                    exclude=None, start=None, end=None, 
                    limit=None, sort=None):
 
-        url = self.base_url + self.namespace + 'collections/users/profiles/' + id + ':' + value + '/events'
+        url = self.base_url + self.namespace + '/collections/users/profiles/' + id + ':' + value + '/events'
         params = {}
 
         if include:
@@ -57,17 +53,14 @@ class Client(object):
             else:
                 params['sort'] = sort
                 
-        if len(params) > 0:
-            r = requests.get(url, params=params, auth=(self.secret, ''))
-        else:
-            r = requests.get(url, auth=(self.secret, ''))
-
-        return r.json()
+        res = requests.get(url, params=params, auth=(self.secret, ''))
+        return res.json()
+        
 
     def get_external_ids(self, id, value, verbose=None, 
                          include=None, limit=None):
         
-        url = self.base_url + self.namespace + 'collections/users/profiles/' + id + ':' + value + '/external_ids'
+        url = self.base_url + self.namespace + '/collections/users/profiles/' + id + ':' + value + '/external_ids'
         params = {}
 
         if include:
@@ -79,29 +72,22 @@ class Client(object):
         if verbose:
             params['verbose'] = 'true'
 
-        if len(params) > 0:
-            r = requests.get(url, params=params, auth=(self.secret, ''))
-        else:
-            r = requests.get(url, auth=(self.secret, ''))
-
-        return r.json()
+        res = requests.get(url, params=params, auth=(self.secret, ''))
+        return res.json()
 
     def get_metadata(self, id, value, verbose=None):
-        url = self.base_url + self.namespace + 'collections/users/profiles/' + id + ':' + value + '/metadata'
+        url = self.base_url + self.namespace + '/collections/users/profiles/' + id + ':' + value + '/metadata'
         params = {}
 
         if verbose:
             params['verbose'] = 'true'
 
-        r = requests.get(url, params=params, auth=(self.secret, ''))
-
-        return r.json()
+        res = requests.get(url, params=params, auth=(self.secret, ''))
+        return res.json()
 
     def get_links(self, id, value):
-        url = self.base_url + self.namespace + 'collections/users/profiles' + id + ':' + value + '/links'
+        url = self.base_url + self.namespace + '/collections/users/profiles/' + id + ':' + value + '/links'
 
-        r = requests.get(url, auth=(self.secret, ''))
+        res = requests.get(url, auth=(self.secret, ''))
+        return res.json()
 
-        return r.json()
-
-    
