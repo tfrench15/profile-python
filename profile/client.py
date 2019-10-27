@@ -6,8 +6,6 @@ class Client(object):
     """
     Client represents a client to Segment's Profile API.
 
-    ...
-
     Attributes
     ----------
     base_url : str
