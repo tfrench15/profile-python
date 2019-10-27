@@ -84,8 +84,7 @@ class Client(object):
         return res.json()
 
     def get_events(self, id, value, include=None, 
-                   exclude=None, start=None, end=None, 
-                   limit=None, sort=None):
+                   exclude=None, limit=None, sort=None):
         """get_events makes requests against the /events endpoint, returning a profile's events.
         
         Parameters
