@@ -43,7 +43,7 @@ class Client(object):
 
         if limit:
             if limit < 1 or limit > 100:
-                raise exceptions.LimitError
+                raise exceptions.LimitError(limit, 'limit must be between 1 and 100 inclusive')
             else:
                 params['limit'] = str(limit)
 
@@ -67,7 +67,10 @@ class Client(object):
             params['include'] = ','.join(include)
         
         if limit:
-            params['limit'] = str(limit)
+            if limit < 1 or limit > 100:
+                raise exceptions.LimitError(limit, 'limit must be between 1 and 100 inclusive')
+            else:
+                params['limit'] = str(limit)
 
         if verbose:
             params['verbose'] = 'true'
